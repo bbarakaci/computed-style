@@ -5,8 +5,8 @@ Get computed styles of dom elements
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/burakbarakaci/computed-style/master/dist/computed-style.min.js
-[max]: https://raw.github.com/burakbarakaci/computed-style/master/dist/computed-style.js
+[min]: https://raw.github.com/bbarakaci/computed-style/master/dist/computed-style.min.js
+[max]: https://raw.github.com/bbarakaci/computed-style/master/dist/computed-style.js
 
 Place it in your file
     

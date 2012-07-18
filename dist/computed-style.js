@@ -1,5 +1,5 @@
 /*! Computed Style - v0.1.0 - 2012-07-18
-* https://github.com/burakbarakaci/computed-style
+* https://github.com/bbarakaci/computed-style
 * Copyright (c) 2012 Burak Barakaci; Licensed MIT */
 
 var computedStyle = (function() {
