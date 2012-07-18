@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Computed Styles</title>
+	<script src="libs/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    
+<style>
+    #target {
+        width : 300.4px;
+        margin:10px;
+        padding:10px;
+        border:10px solid black;
+    }
+</style>
+<div id="target">
+    test
+</div>
+
+
+<script>
+var $target = $('#target'),
+    target = $target[0];
+    
+
+    var computedStyle = (function(){
+
+        function ComputedStyle(){
+
+        }
+
+        ComputedStyle.prototype = {
+            get : function(el, name){
+                return this.getAll(el)[name];
+            },
+            getFloat : function(el,name){
+                return this.toFloat(this.get(el, name));
+            },
+            toFloat : function(value){
+                return parseFloat(value, 10) || 0;
+            },
+            getAll : function(el){
+                return window.getComputedStyle(el);
+            },
+            width : function(el){
+                return el.getBoundingClientRect().width;
+            }
+        };
+
+        function ComputedStyleOldIe(){
+
+        }
+
+        ComputedStyleOldIe.prototype = new ComputedStyle();
+
+        ComputedStyleOldIe.prototype.getAll = function(el){
+            return el.currentStyle;
+        };
+
+        ComputedStyleOldIe.prototype.width = function(el){
+            // Function for ie<9. when hasLayout is not triggered in ie7, he will report currentStyle as auto, clientWidth as 0. Thus using offsetWidth.
+            var styles = this.getAll(el);
+            return (el.offsetWidth - (this.toFloat(styles['paddingLeft']) + this.toFloat(styles['paddingRight']) + this.toFloat(styles['borderLeftWidth']) + this.toFloat(styles['borderRightWidth']))) + 'px';
+        };
+
+        function ComputedStyleFirefox36(){
+
+        }
+
+        ComputedStyleFirefox36.prototype = new ComputedStyle();
+
+        ComputedStyleFirefox36.prototype.getAll = function(el){
+            return document.defaultView.getComputedStyle(el);
+        };
+
+
+        // I will do feature check just once and return the necessary object.
+        function createCompStyle(){
+            if (window.getComputedStyle) {
+                // modern browsers first
+                return new ComputedStyle();
+            } else if (document.documentElement.currentStyle) {
+                // oldies
+                return new ComputedStyleOldIe();
+            } else if (document.defaultView && document.defaultView.getComputedStyle) {
+                // firefox 3.6 still out there somewhere
+                return new ComputedStyleFirefox36();
+            }        
+        }
+
+        return createCompStyle();
+    }());
+
+
+var computedStyle = {
+    getAll : function(element) {
+        return element.currentStyle || document.defaultView.getComputedStyle(element);
+    }
+}
+
+var computedStyle = (function() {
+    var computedStyle = {
+        getAll : function(element){
+            return element.currentStyle || document.defaultView.getComputedStyle(element);
+        },
+        get : function(element, name){
+            return this.getAll(element)[name];
+        },
+        toFloat : function(value){
+            return parseFloat(value, 10) || 0;
+        },
+        getFloat : function(element,name){
+            return this.toFloat(this.get(element, name));
+        }
+    };
+    
+    return computedStyle;
+    
+}());
+
+
+
+var computedStyle = (function() {
+    var computedStyle = {
+        getAll : function(element){
+            return document.defaultView.getComputedStyle(element);
+        },
+        get : function(element, name){
+            return this.getAll(element)[name];
+        },
+        toFloat : function(value){
+            return parseFloat(value, 10) || 0;
+        },
+        getFloat : function(element,name){
+            return this.toFloat(this.get(element, name));
+        },
+        _getAllCurrentStyle : function(element) {
+            return element.currentStyle;
+        } 
+    };
+
+    if (document.documentElement.currentStyle) {
+        computedStyle.getAll = computedStyle._getAllCurrentStyle;
+    }
+    
+    return computedStyle;
+    
+}());
+
+
+
+//Usage
+console.log(computed_style.getAll(target)['marginTop']);
+console.log(lazy_computed_style.getAll(target)['marginTop']);
+
+
+</script>
+<dl>
+    <dt>$target.css('marginTop')</dt>
+    <dd id="jcss"></dd>
+    <dt>getComputedStyle(target)['marginTop']</dt>
+    <dd id="gcs"></dd>
+</dl>
+<script>
+    $('#jcss').html($target.css('marginTop'));
+    $('#gcs').html(lazy_computed_style.getAll(target)['marginTop']);
+</script>
+</body>
+</html>
