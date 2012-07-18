@@ -22,7 +22,7 @@
       raises(block, [expected], [message])
   */
 
-  module('computed_style', {
+  module('computedStyle', {
     setup: function() {
       this.elm = document.getElementById('victim');
       this.cs = window.computedStyle;
