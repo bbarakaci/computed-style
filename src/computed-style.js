@@ -1,4 +1,4 @@
-var computedStyle = (function() {
+window.computedStyle = (function() {
     var computedStyle = {
         getAll : function(element){
             return document.defaultView.getComputedStyle(element);
