@@ -1,8 +1,8 @@
-/*! Computed Style - v0.1.0 - 2012-07-18
+/*! Computed Style - v0.1.1 - 2016-06-18
 * https://github.com/bbarakaci/computed-style
 * Copyright (c) 2012 Burak Barakaci; Licensed MIT */
 
-var computedStyle = (function() {
+window.computedStyle = (function() {
     var computedStyle = {
         getAll : function(element){
             return document.defaultView.getComputedStyle(element);
